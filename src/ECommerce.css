@@ -1,0 +1,42 @@
+.main-container {
+    width: 98%;
+    border: 1px solid red;
+    margin: 0 auto;
+  }
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid red;
+    padding: 0 10px;
+  }
+  h1 {
+    margin: 0;
+  }
+  
+  .content {
+    padding: 0 10px;
+    margin: 1px;
+    border: 1px solid green;
+  }
+  
+  .product-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    /* align-items: center; */
+  }
+  
+  .product {
+    position: relative;
+    border: 1px solid blue;
+    padding: 10px;
+    margin: 10px 0;
+    width: 150px;
+  }
+
+  .btn-cart {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+  }
