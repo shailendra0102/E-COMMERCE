@@ -1,9 +1,10 @@
-import { useCart } from "./cart-context";
+import { ChangeEvent } from "react";
+import { useCart } from "../context/cart-context";
+import { Product } from "./ProductList";
 
 export const CartList = () => {
     const {cartItems, setCartItem: addToCart} = useCart();
-    const quantityHandler = (product, event) => {
-        window.console.log(event.target.value);
+    const quantityHandler = (product: Product, event: ChangeEvent<HTMLSelectElement>) => {
         product.userQty = Number(event.target.value);
         addToCart([...cartItems])
     }
@@ -17,7 +18,7 @@ export const CartList = () => {
                             <p>{product.title}</p>
                             <p>{product.price}</p>
                             Qty: <select onChange={(event) => quantityHandler(product, event)} defaultValue={product.userQty}>
-                            <option value={0}>0(Delete)</option>
+                                <option value={0}>0(Delete)</option>
                                 <option value={1}>1</option>
                                 <option value={2}>2</option>
                                 <option value={3}>3</option>
