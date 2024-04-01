@@ -1,12 +1,18 @@
 import { ChangeEvent } from "react";
-import { useCart } from "../context/cart-context";
+// import { useCart } from "../context/cart-context";
 import { Product } from "./ProductList";
+import { useAppSelector, useAppDispatch } from "../redux/hooks";
+import { userCartSelector, changeProductQnty } from "../redux/slice/user-cartslice";
 
 export const CartList = () => {
-    const {cartItems, setCartItem: addToCart} = useCart();
+    // const {cartItems, setCartItem: addToCart} = useCart();
+    const cartItems = useAppSelector(userCartSelector).cartItems; //redux usage
+    const dispatch = useAppDispatch();
     const quantityHandler = (product: Product, event: ChangeEvent<HTMLSelectElement>) => {
-        product.userQty = Number(event.target.value);
-        addToCart([...cartItems])
+        const prod = {...product};
+        prod.userQty = Number(event.target.value);
+        // const prod = {...product};
+        dispatch(changeProductQnty(prod));
     }
     return(
         <>

@@ -1,8 +1,13 @@
 import { memo, useCallback, useState } from "react";
-import { useCart } from "../context/cart-context";
 import Modal from "../shared/model";
 import { CartList } from "./CartList";
 import { useProducts } from "../hooks/useProducts";
+//context usage
+// import { useCart } from "../context/cart-context";
+//Redux usage
+import { useAppSelector, useAppDispatch } from "../redux/hooks";
+import { userCartSelector, addToCart } from "../redux/slice/user-cartslice";
+// import { addToCart } from "../redux/slice/user-cartslice";
 
 interface Rating {
     rate: number;
@@ -33,7 +38,8 @@ const Header = memo(() => {
 
 const CartButton = () => {
     const [openModal, setIsOpenModel] = useState<boolean>(false);
-    const {cartItems} = useCart();
+    // const {cartItems} = useCart();  --> context usage
+    const cartItems = useAppSelector(userCartSelector).cartItems; //redux usage
     const cartHandler = useCallback(() => {
         setIsOpenModel(true);
     },[])
@@ -57,18 +63,21 @@ const CartButton = () => {
     )
 }
 export const ProductList = () => {
-    const {cartItems, setCartItem: addToCart} = useCart();
+    // const {cartItems, setCartItem: addToCart} = useCart(); --> context usage
+    const cartItems = useAppSelector(userCartSelector).cartItems; //redux usage
+    const dispatch = useAppDispatch();
     const {isLoading, products} = useProducts('https://fakestoreapi.com/products');
-    const clickHandler = useCallback((product: Product) => {
+    const clickHandler = (product: Product) => {
         const isExists = cartItems.some((item) => item.id === product.id);
         if(!isExists) {
             product.userQty = 1;
-            cartItems.push(product);
-            addToCart([...cartItems]);
+            // cartItems.push(product); --> context usage
+            // addToCart([...cartItems]);
+            dispatch(addToCart(product));
         } else {
             alert('item already in cart');
         }
-    },[])
+    }
     return (
         <>
          <div className="main-container">
